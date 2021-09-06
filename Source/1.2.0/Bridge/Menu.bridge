@@ -1,0 +1,215 @@
+@ MENU
+get:App:source:menu:(():{
+    set:draw:(get:App:draw)
+	set:width:(480)
+	set:height:(640)
+    get:this:create:(():{
+		@ SETUP
+		get:draw:width:(get:width)
+		get:draw:height:(get:height)
+		get:draw:scale(get:width, get:height)
+		do:foreach(get:draw:input:key:each):((key):{
+			get:draw:input:key:clear(get:key:id)
+		})
+		do:foreach(get:draw:input:pad:each):((pad):{
+			get:draw:input:pad:clear(get:pad:id)
+		})
+		do:foreach(get:draw:input:touch:each):((touch):{
+			get:draw:input:touch:clear(get:touch:id)
+		})
+        @ BACKGROUND
+		get:draw:item:background:(new:Object())
+		get:draw:item:background:color:(get:Color:value(0x6699FF))
+		get:draw:item:background:render:(():{
+			get:draw:fill(get:this:color):rectangle(0, 0, get:draw:width, get:draw:height)
+		})
+		@ TITLE
+		get:draw:item:title:(get:draw:print())
+		get:draw:item:title:x:(80)
+		get:draw:item:title:y:(80)
+		get:draw:item:title:size:(4)
+		get:draw:item:title:color:(get:Color:WHITE)
+		get:draw:item:title:value:(get:App:NAME)
+		get:draw:item:title:update()
+		@ PLAY
+		get:draw:button:play:(get:draw:print())
+		get:draw:button:play:x:(80)
+		get:draw:button:play:y:(get:draw:item:title:y + 160)
+		get:draw:button:play:size:(4)
+		get:draw:button:play:color:(get:Color:WHITE)
+		get:draw:button:play:value:("PLAY")
+		do:case(get:draw:value:game > 0):{ get:draw:button:play:value:("CONTINUE") }
+		get:draw:button:play:update()
+		@ RESET
+		get:draw:button:reset:(get:draw:print())
+		get:draw:button:reset:x:(80)
+		get:draw:button:reset:y:(get:draw:button:play:y + 80)
+		get:draw:button:reset:size:(4)
+		get:draw:button:reset:color:(get:Color:WHITE)
+		get:draw:button:reset:value:("NEW GAME")
+		get:draw:button:reset:update()
+		@ ABOUT
+		get:draw:button:about:(get:draw:print())
+		get:draw:button:about:x:(80)
+		get:draw:button:about:y:(get:draw:button:reset:y + 80)
+		get:draw:button:about:size:(4)
+		get:draw:button:about:color:(get:Color:WHITE)
+		get:draw:button:about:value:("ABOUT")
+		get:draw:button:about:update()
+		@ EXIT
+		get:draw:button:exit:(get:draw:print())
+		get:draw:button:exit:x:(80)
+		get:draw:button:exit:y:(get:draw:button:about:y + 80)
+		get:draw:button:exit:size:(4)
+		get:draw:button:exit:color:(get:Color:WHITE)
+		get:draw:button:exit:value:("EXIT")
+		get:draw:button:exit:update()
+		@ CURSOR
+		get:draw:button:line:(new:Object())
+		get:draw:button:line:item:(new:Array())
+		get:draw:button:line:item:push(get:draw:button:play)
+		get:draw:button:line:item:push(get:draw:button:reset)
+		get:draw:button:line:item:push(get:draw:button:about)
+		get:draw:button:line:item:push(get:draw:button:exit)
+		get:draw:button:line:position:(get:draw:value:cursor)
+		get:draw:button:line:x:(80)
+		get:draw:button:line:y:(get:draw:button:line:item[get:draw:button:line:position]:y)
+		get:draw:button:line:width:(get:draw:button:line:item[get:draw:button:line:position]:width)
+		get:draw:button:line:height:(4)
+		get:draw:button:line:update:(():{
+			get:draw:button:line:y:(get:draw:button:line:item[get:draw:button:line:position]:y + 4 * 8)
+			get:draw:button:line:width:(get:draw:button:line:item[get:draw:button:line:position]:width)
+		})
+		get:draw:button:line:render:(():{
+			get:draw:fill(get:Color:WHITE):rectangle(get:this:x, get:this:y, get:this:width, get:this:height)
+		})
+	})
+	get:this:input:(():{
+		@ INPUT
+		get:draw:input:enter:(false)
+		get:draw:input:up:(false)
+		get:draw:input:down:(false)
+		@ KEY
+		do:foreach(get:draw:input:key:each):((key):{
+			do:case(get:key:active):{
+				do:case(get:key:id == 13 || get:key:id == 53):{
+					get:draw:input:enter:(true)
+				}
+				do:case(get:key:id == 38 || get:key:id == 50):{
+					get:draw:input:up:(true)
+				}
+				do:case(get:key:id == 40 || get:key:id == 56):{
+					get:draw:input:down:(true)
+				}
+				get:draw:input:key:clear(get:key:id)
+				get:draw:touchable:(false)
+			}
+		})
+		@ PAD
+		do:foreach(get:draw:input:pad:each):((pad):{
+			do:case(get:pad:active):{
+				do:foreach(get:pad:axe):((axe):{
+					do:case(get:axe:active):{
+						do:case(get:axe:id == 3 || get:axe:id == 11):{
+							get:draw:input:up:(true)
+						}
+						do:case(get:axe:id == 1 || get:axe:id == 9):{
+							get:draw:input:down:(true)
+						}
+						get:axe:active:(false)
+						get:draw:touchable:(false)
+					}
+				})
+				do:foreach(get:pad:button):((button):{
+					do:case(get:button:active):{
+						do:case(get:button:id == 2):{
+							get:draw:input:enter:(true)
+						}
+						get:button:active:(false)
+						get:draw:touchable:(false)
+					}
+				})
+			}
+		})
+		@ TOUCH
+		do:foreach(get:draw:input:touch:each):((touch):{
+			do:case(get:touch:active):{
+				set:play:(get:draw:button:line:item[0])
+				set:reset:(get:draw:button:line:item[1])
+				set:about:(get:draw:button:line:item[2])
+				set:exit:(get:draw:button:line:item[3])
+				do:case(get:draw:click(get:touch, get:play)):{
+					get:draw:button:line:position:(0)
+					get:draw:value:cursor:(get:draw:button:line:position)
+					get:draw:input:enter:(true)
+				}
+				do:case(get:draw:click(get:touch, get:reset)):{
+					get:draw:button:line:position:(1)
+					get:draw:input:enter:(true)
+				}
+				do:case(get:draw:click(get:touch, get:about)):{
+					get:draw:button:line:position:(2)
+					get:draw:value:cursor:(get:draw:button:line:position)
+					get:draw:input:enter:(true)
+				}
+				do:case(get:draw:click(get:touch, get:exit)):{
+					get:draw:button:line:position:(3)
+					get:draw:input:enter:(true)
+				}
+				get:draw:input:touch:clear(get:touch:id)
+				get:draw:touchable:(true)
+			}
+		})
+		@ UP
+		do:case(get:draw:input:up):{
+			do:case(get:draw:button:line:position > 0):{
+				get:draw:button:line:position:(get:draw:button:line:position - 1)
+				get:draw:value:cursor:(get:draw:button:line:position)
+			}
+		}
+		@ DOWN
+		do:case(get:draw:input:down):{
+			do:case(get:draw:button:line:position < get:draw:button:line:item:length - 1):{
+				get:draw:button:line:position:(get:draw:button:line:position + 1)
+				get:draw:value:cursor:(get:draw:button:line:position)
+			}
+		}
+		@ ENTER
+		do:case(get:draw:input:enter):{
+			do:case(get:draw:button:line:position == 0):{ get:draw:open(get:App:source:main) }
+			do:case(get:draw:button:line:position == 1):{
+				get:draw:value:game:(0)
+				get:Cache:clear("be//game")
+				get:draw:open(get:App:source:main)
+			}
+			do:case(get:draw:button:line:position == 2):{ get:draw:open(get:App:source:about) }
+			do:case(get:draw:button:line:position == 3):{ get:window:close() }
+		}
+	})
+    get:this:update:(():{
+		@ VIEW
+		get:draw:view()
+		@ UPDATE
+		get:draw:button:line:update()
+		@ ADD
+		get:draw:each:(new:Array())
+		get:draw:each:push(get:draw:item:background)
+		get:draw:each:push(get:draw:item:title)
+		get:draw:each:push(get:draw:button:play)
+		get:draw:each:push(get:draw:button:reset)
+		get:draw:each:push(get:draw:button:about)
+		get:draw:each:push(get:draw:button:exit)
+		get:draw:each:push(get:draw:button:line)
+    })
+	@ RENDER
+    get:this:render:(():{
+		@ CLEAR
+		get:draw:clear()
+		@ RENDER
+		do:foreach(get:draw:each):((value):{
+			do:case(get:value && get:value:render):{
+				get:value:render()
+			}
+		})
+    })
+})

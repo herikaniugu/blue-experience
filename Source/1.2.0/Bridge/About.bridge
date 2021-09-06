@@ -1,0 +1,123 @@
+@ MENU
+get:App:source:about:(():{
+    set:draw:(get:App:draw)
+	set:width:(480)
+	set:height:(640)
+    get:this:create:(():{
+		@ SETUP
+		get:draw:width:(get:width)
+		get:draw:height:(get:height)
+		get:draw:scale(get:width, get:height)
+		do:foreach(get:draw:input:key:each):((key):{
+			get:draw:input:key:clear(get:key:id)
+		})
+		do:foreach(get:draw:input:touch:each):((touch):{
+			get:draw:input:touch:clear(get:touch:id)
+		})
+		do:foreach(get:draw:input:touch:each):((touch):{
+			get:draw:input:touch:clear(get:touch:id)
+		})
+        @ BACKGROUND
+		get:draw:item:background:(new:Object())
+		get:draw:item:background:color:(get:Color:value(0x6699FF))
+		get:draw:item:background:render:(():{
+			get:draw:fill(get:this:color):rectangle(0, 0, get:draw:width, get:draw:height)
+		})
+		@ TITLE
+		get:draw:item:title:(get:draw:print())
+		get:draw:item:title:x:(80)
+		get:draw:item:title:y:(80)
+		get:draw:item:title:size:(4)
+		get:draw:item:title:color:(get:Color:WHITE)
+		get:draw:item:title:value:("ABOUT")
+		get:draw:item:title:update()
+		@ TEXT
+		get:draw:item:text:(new:Object())
+		get:draw:item:text:each:(new:Array())
+		get:draw:item:text:value:([
+			["BLUE EXPERIENCE"],
+			["---------------"],
+			["PROGRAMMED BY"],
+			["HERI KANIUGU"],
+			["---------------"],
+			["MADE WITH"],
+			["HYPERBOX ENGINE"]
+		])
+		get:draw:item:text:create:(():{
+			get:this:each:(new:Array())
+			do:for(set:index:(1), get:index < get:this:value:length + 1, get:index++):{
+				set:text:(get:draw:print())
+				get:text:x:(80)
+				get:text:y:(get:draw:item:title:y + 80 + 4 * 12 * get:index)
+				get:text:size:(4)
+				get:text:color:(get:Color:WHITE)
+				get:text:value:(get:this:value[get:index - 1])
+				get:text:update()
+				get:this:each:push(get:text)
+			}
+		})
+		get:draw:item:text:render:(():{
+			do:foreach(get:this:each):((each):{
+				get:each:render()
+			})
+		})
+		get:draw:item:text:create()
+	})
+	get:this:input:(():{
+		@ INPUT
+		get:draw:input:menu:(false)
+		do:case(get:draw:frame > 20):{
+			@ KEY
+			do:foreach(get:draw:input:key:each):((key):{
+				do:case(get:key:active):{
+					get:draw:input:menu:(true)
+				}
+			})
+			@ PAD
+			do:foreach(get:draw:input:pad:each):((pad):{
+				do:case(get:pad:active):{
+					do:foreach(get:pad:axe):((axe):{
+						do:case(get:axe:active):{
+							get:draw:input:menu:(true)
+						}
+					})
+					do:foreach(get:pad:button):((button):{
+						do:case(get:button:active):{
+							get:draw:input:menu:(true)
+						}
+					})
+				}
+			})
+			@ TOUCH
+			do:foreach(get:draw:input:touch:each):((touch):{
+				do:case(get:touch:active):{
+					get:draw:input:menu:(true)
+				}
+			})
+		}
+		@ MENU
+		do:case(get:draw:input:menu):{
+			get:draw:open(get:App:source:menu)
+		}
+	})
+    get:this:update:(():{
+		@ VIEW
+		get:draw:view()
+		@ EACH
+		get:draw:each:(new:Array())
+		get:draw:each:push(get:draw:item:background)
+		get:draw:each:push(get:draw:item:title)
+		get:draw:each:push(get:draw:item:text)
+    })
+	@ RENDER
+    get:this:render:(():{
+		@ CLEAR
+		get:draw:clear()
+		@ RENDER
+		do:foreach(get:draw:each):((value):{
+			do:case(get:value && get:value:render):{
+				get:value:render()
+			}
+		})
+    })
+})

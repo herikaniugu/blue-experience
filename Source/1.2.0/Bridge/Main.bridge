@@ -1,0 +1,399 @@
+@ MAIN
+get:App:source:main:(():{
+	@ DRAW
+    set:draw:(get:App:draw)
+	set:width:(480)
+	set:height:(640)
+	@ RAYCAST
+	set:raycast:(get:draw:raycast())
+    get:this:create:(():{
+		@ CREATE
+		get:draw:width:(get:width)
+		get:draw:height:(get:height)
+		get:draw:scale(get:width, get:height)
+		do:foreach(get:draw:input:key:each):((key):{
+			get:draw:input:key:clear(get:key:id)
+		})
+		do:foreach(get:draw:input:pad:each):((pad):{
+			get:draw:input:pad:clear(get:pad:id)
+		})
+		do:foreach(get:draw:input:touch:each):((touch):{
+			get:draw:input:touch:clear(get:touch:id)
+		})
+		get:draw:initialize:(true)
+		get:draw:playable:(false)
+		get:draw:now:(0)
+		@ RAYCAST
+		get:raycast:step:({ x: -1, y: 1 })
+		get:raycast:plane:({ x: 0, y: 0.66 })
+		get:raycast:viewport:({ x: 0, y: 0 })
+		get:raycast:distance:({ x: 0, y: 0 })
+		get:raycast:direction:({ x: 0, y: 0 })
+		@ CAMERA
+		get:raycast:camera:({ x: 10.5, y: 10.5, direction: { x: -1, y: 0 } })
+		@ WALL
+		get:raycast:wall:(new:Object())
+		get:raycast:wall:texture:(new:Object())
+		@ TEXTURE
+		get:raycast:texture:(["#6699FF", "#FFFFFF"])
+		@ BACKGROUND
+		get:raycast:background:opacity:(2)
+		get:raycast:background:color:(get:Color:WHITE)
+		@ DATA
+		get:raycast:data:(get:draw:value:environment[get:draw:value:game])
+		@ MINIMAP
+		get:draw:item:minimap:(new:Object())
+		get:draw:item:minimap:size:(6)
+		get:draw:item:minimap:cols:(12)
+		get:draw:item:minimap:rows:(12)
+		get:draw:item:minimap:x:(40)
+		get:draw:item:minimap:y:(40)
+		get:draw:item:minimap:width:(get:draw:item:minimap:cols * get:draw:item:minimap:size)
+		get:draw:item:minimap:height:(get:draw:item:minimap:rows * get:draw:item:minimap:size)
+		get:draw:item:minimap:color:(get:Color:DARK)
+		get:draw:item:minimap:each:(new:Array())
+		get:draw:item:minimap:data:(get:draw:value:environment[get:draw:value:game])
+		get:draw:item:minimap:canvas:(get:document:createElement("canvas"))
+		get:draw:item:minimap:context:(get:draw:item:minimap:canvas:getContext("2d"))
+		get:draw:item:minimap:update:(():{
+			get:this:each:(new:Array())
+			get:this:canvas:width:(get:this:width)
+			get:this:canvas:height:(get:this:height)
+			get:this:context:save()
+			get:this:context:globalAlpha:(0.4)
+			do:for(set:x:(0), get:x < get:this:cols, get:x++):{
+				do:for(set:y:(0), get:y < get:this:rows, get:y++):{
+					set:section:(get:draw:item:minimap:data[get:y])
+					set:id:(get:section[get:x])
+					do:case(get:id == 1):{
+						set:item:(new:Object())
+						get:item:id:(get:id)
+						get:item:x:(get:x * get:this:size)
+						get:item:y:(get:y * get:this:size)
+						get:item:width:(get:this:size)
+						get:item:height:(get:this:size)
+						get:this:each:push(get:item)
+						get:this:context:fillStyle:(get:this:color)
+						get:this:context:fillRect(get:item:x, get:item:y, get:item:width, get:item:height)
+					}
+				}
+			}
+			get:this:context:restore()
+			get:this:context:globalAlpha:(0.8)
+			get:this:context:fillStyle:(get:Color:DARK)
+			get:this:context:fillRect(get:Math:floor(get:raycast:camera:y) * get:this:size, get:Math:floor(get:raycast:camera:x) * get:this:size, get:this:size, get:this:size)
+		})
+		get:draw:item:minimap:render:(():{
+			set:minimap:(get:this)
+			set:angle:(get:draw:angle(get:raycast:camera:direction:x, get:raycast:camera:direction:y) - 180)
+			get:draw:rotation(get:angle, get:this:x, get:this:y, get:this:width, get:this:height, (value):{
+				get:draw:context:drawImage(get:minimap:canvas, 0, 0, get:minimap:canvas:width, get:minimap:canvas:height, get:value:x, get:value:y, get:value:width, get:value:height)
+			})
+		})
+		@ MENU
+		get:draw:button:menu:(new:Object())
+		get:draw:button:menu:width:(40)
+		get:draw:button:menu:height:(40)
+		get:draw:button:menu:opacity:(0.4)
+		get:draw:button:menu:color:(get:Color:DARK)
+		get:draw:button:menu:render:(():{
+			get:draw:save():opacity(get:this:opacity):fill(get:this:color):rectangle(get:this:x, get:this:y, get:this:width, get:this:height):restore()
+		})
+		@ LEFT
+		get:draw:button:left:(new:Object())
+		get:draw:button:left:width:(40)
+		get:draw:button:left:height:(40)
+		get:draw:button:left:opacity:(0.4)
+		get:draw:button:left:color:(get:Color:DARK)
+		get:draw:button:left:render:(():{
+			get:draw:save():opacity(get:this:opacity):fill(get:this:color):rectangle(get:this:x, get:this:y, get:this:width, get:this:height):restore()
+		})
+		@ RIGHT
+		get:draw:button:right:(new:Object())
+		get:draw:button:right:width:(40)
+		get:draw:button:right:height:(40)
+		get:draw:button:right:opacity:(0.4)
+		get:draw:button:right:color:(get:Color:DARK)
+		get:draw:button:right:render:(():{
+			get:draw:save():opacity(get:this:opacity):fill(get:this:color):rectangle(get:this:x, get:this:y, get:this:width, get:this:height):restore()
+		})
+		@ FORWARD
+		get:draw:button:forward:(new:Object())
+		get:draw:button:forward:width:(40)
+		get:draw:button:forward:height:(40)
+		get:draw:button:forward:opacity:(0.4)
+		get:draw:button:forward:color:(get:Color:DARK)
+		get:draw:button:forward:render:(():{
+			get:draw:save():opacity(get:this:opacity):fill(get:this:color):rectangle(get:this:x, get:this:y, get:this:width, get:this:height):restore()
+		})
+		@ BACKWARD
+		get:draw:button:backward:(new:Object())
+		get:draw:button:backward:width:(40)
+		get:draw:button:backward:height:(40)
+		get:draw:button:backward:opacity:(0.4)
+		get:draw:button:backward:color:(get:Color:DARK)
+		get:draw:button:backward:render:(():{
+			get:draw:save():opacity(get:this:opacity):fill(get:this:color):rectangle(get:this:x, get:this:y, get:this:width, get:this:height):restore()
+		})
+		@ STOPWATCH
+		get:draw:item:stopwatch:(get:draw:print())
+		get:draw:item:stopwatch:size:(6)
+		get:draw:item:stopwatch:interpolation:(get:draw:interpolation)
+		get:draw:item:stopwatch:count:(0)
+		get:draw:item:stopwatch:opacity:(0.4)
+		get:draw:item:stopwatch:color:(get:Color:DARK)
+		get:draw:item:stopwatch:value:("00")
+		get:draw:item:stopwatch:update()
+		@ GAME
+		get:draw:item:game:(get:draw:print())
+		get:draw:item:game:size:(6)
+		get:draw:item:game:opacity:(0.4)
+		get:draw:item:game:color:(get:Color:DARK)
+		do:case(get:draw:value:game < 9):{
+			set:id:(get:draw:value:game + 1)
+			get:draw:item:game:value:("0" + get:id)
+		}:default:{
+			set:id:(get:draw:value:game + 1)
+			get:draw:item:game:value:(get:Type:BLANK + get:id)
+		}
+		get:draw:item:game:update()
+		@ INFORMATION
+		get:draw:item:information:(new:Object())
+		get:draw:item:information:text:(get:draw:print())
+		get:draw:item:information:text:size:(6)
+		get:draw:item:information:text:color:(get:Color:WHITE)
+		get:draw:item:information:background:(get:Color:WHITE)
+		get:draw:item:information:type:({ timeout: false, complete: false })
+		get:draw:item:information:opacity:(2)
+		get:draw:item:information:render:(():{
+			get:draw:save():opacity(get:this:opacity):fill(get:this:background):rectangle(0, 0, get:draw:width, get:draw:height):restore()
+		})
+		@ AD
+		get:draw:ad:count:(get:draw:ad:count + 1)
+		get:draw:ad:close:(():{
+			get:draw:ad:preload()
+			get:draw:value:cursor:(0)
+			get:draw:open(get:App:source:menu)
+		})
+    })
+	get:this:input:(():{
+		@ INPUT
+		get:draw:input:menu:(false)
+		get:draw:input:left:(false)
+		get:draw:input:right:(false)
+		get:draw:input:backward:(false)
+		get:draw:input:forward:(false)
+		@ PLAYABLE
+		do:case(get:draw:playable):{
+			@ KEYPAD
+			do:case(get:draw:input:key:active):{ get:draw:touchable:(false) }
+			@ KEY
+			do:foreach(get:draw:input:key:each):((key):{
+				do:case(get:key:active):{
+					do:case(get:key:id == 27 || get:key:id == 8):{
+						get:draw:input:menu:(true)
+					}
+					do:case(get:key:id == 37 || get:key:id == 52):{
+						get:draw:input:left:(true)
+					}
+					do:case(get:key:id == 39 || get:key:id == 54):{
+						get:draw:input:right:(true)
+					}
+					do:case(get:key:id == 38 || get:key:id == 50):{
+						get:draw:input:backward:(true)
+					}
+					do:case(get:key:id == 40 || get:key:id == 56):{
+						get:draw:input:forward:(true)
+					}
+					get:draw:touchable:(false)
+				}
+			})
+			@ PAD
+			do:foreach(get:draw:input:pad:each):((pad):{
+				do:case(get:pad:active):{
+					do:foreach(get:pad:axe):((axe):{
+						do:case(get:axe:active):{
+							do:case(get:axe:id == 6):{
+								get:draw:input:left:(true)
+							}
+							do:case(get:axe:id == 4):{
+								get:draw:input:right:(true)
+							}
+							do:case(get:axe:id == 1 || get:axe:id == 9):{
+								get:draw:input:forward:(true)
+							}
+							do:case(get:axe:id == 3 || get:axe:id == 11):{
+								get:draw:input:backward:(true)
+							}
+							get:draw:touchable:(false)
+						}
+					})
+					do:foreach(get:pad:button):((button):{
+						do:case(get:button:active):{
+							do:case(get:button:id == 9):{
+								get:draw:input:menu:(true)
+								get:button:active:(false)
+							}
+							get:draw:touchable:(false)
+						}
+					})
+				}
+			})
+			@ TOUCH
+			do:foreach(get:draw:input:touch:each):((touch):{
+				do:case(get:touch:active):{
+					do:case(get:draw:click(get:touch, get:draw:button:menu)):{ get:draw:input:menu:(true) }
+					do:case(get:draw:click(get:touch, get:draw:button:left)):{ get:draw:input:left:(true) }
+					do:case(get:draw:click(get:touch, get:draw:button:right)):{ get:draw:input:right:(true) }
+					do:case(get:draw:click(get:touch, get:draw:button:forward)):{ get:draw:input:forward:(true) }
+					do:case(get:draw:click(get:touch, get:draw:button:backward)):{ get:draw:input:backward:(true) }
+					do:case(get:touch:y < get:draw:item:minimap:y):{
+						do:case(get:touch:left):{ get:draw:input:left:(true) }
+						do:case(get:touch:right):{ get:draw:input:right:(true) }
+					}
+					get:draw:touchable:(true)
+				}
+			})
+			@ ACTION
+			do:case(get:draw:input:left):{ get:raycast:rotate(1) }
+			do:case(get:draw:input:right):{ get:raycast:rotate(-1) }
+			do:case(get:draw:input:backward):{ get:raycast:move(2) }
+			do:case(get:draw:input:forward):{ get:raycast:move(-2) }
+		}
+		@ MENU
+		do:case(get:draw:input:menu):{
+			get:draw:open(get:App:source:menu)
+		}
+	})
+    get:this:update:(():{
+		@ INITIALIZE
+		do:case(get:draw:initialize && get:draw:playable == false):{
+			get:draw:item:information:background:(get:Color:WHITE)
+			get:draw:item:information:opacity:(get:draw:item:information:opacity - 0.04)
+			do:case(get:draw:item:information:opacity < 0.04):{
+				get:draw:initialize:(false)
+				get:draw:playable:(true)
+				get:draw:now:(0)
+			}
+		}
+		@ VIEW
+		get:draw:view()
+		@ ALIGNMENT
+		get:draw:center(get:draw:item:minimap)
+		get:draw:bottom(get:draw:item:minimap, get:draw:item:minimap:height + 40 + 20)
+		get:draw:top(get:draw:button:menu, 40)
+		get:draw:left(get:draw:button:menu, 40)
+		get:draw:bottom(get:draw:button:forward, 40 * 2 + 20)
+		get:draw:left(get:draw:button:forward, 40 + 20)
+		get:draw:bottom(get:draw:button:backward, 40 * 2 + 20)
+		get:draw:left(get:draw:button:backward, 40 * 3 + 20)
+		get:draw:bottom(get:draw:button:left, 40 * 2 + 20)
+		get:draw:right(get:draw:button:left, 40 * 4 + 20)
+		get:draw:bottom(get:draw:button:right, 40 * 2 + 20)
+		get:draw:right(get:draw:button:right, 40 * 2 + 20)
+		get:draw:top(get:draw:item:stopwatch, 40)
+		do:case(get:draw:touchable):{
+			get:draw:left(get:draw:item:stopwatch, 40 * 2 + 20)
+		}:default:{
+			get:draw:left(get:draw:item:stopwatch, 40)
+		}
+		get:draw:top(get:draw:item:game, 40)
+		get:draw:right(get:draw:item:game, get:draw:item:game:width + 40)
+		@ STOPWATCH
+		do:case(get:draw:playable):{
+			get:draw:item:stopwatch:count:(get:Math:floor(get:draw:now / 3))
+			do:case(get:draw:item:stopwatch:count < 10):{
+				get:draw:item:stopwatch:value:("0" + get:draw:item:stopwatch:count)
+			}:default:{
+				get:draw:item:stopwatch:value:(get:draw:item:stopwatch:count)
+			}
+			get:draw:item:stopwatch:update()
+		}
+        @ UPDATE
+		get:raycast:update()
+		get:draw:item:minimap:update()
+		do:case(get:draw:item:stopwatch:count > 10):{
+			do:case(get:draw:playable):{ get:draw:item:information:type:timeout:(true) }
+		}
+        do:case(get:Math:floor(get:raycast:camera:x) == 1 && get:Math:floor(get:raycast:camera:y) == 1):{
+			do:case(get:draw:playable):{ get:draw:item:information:type:complete:(true) }
+		}
+		@ TIMEOUT
+		do:case(get:draw:item:information:type:timeout):{
+			get:draw:frame:(0)
+			get:draw:playable:(false)
+			get:draw:item:information:background:(get:Color:value(0xFF6699))
+			get:draw:item:information:text:color:(get:Color:WHITE)
+			get:draw:item:information:text:value:("TIMEOUT")
+			get:draw:item:information:text:update()
+			get:draw:center(get:draw:item:information:text)
+			do:case(get:draw:item:information:opacity < 2):{
+				get:draw:item:information:opacity:(get:draw:item:information:opacity + 0.04)
+			}:default:{
+				do:case(get:draw:ad:count % 2 == 0):{
+					get:draw:ad:publish()
+					do:case(get:draw:ad:active == false):{ get:this:create() }
+				}:default:{
+					get:this:create()
+				}
+			}
+		}
+		@ COMPLETED
+		do:case(get:draw:item:information:type:complete && get:draw:item:information:type:timeout == false):{
+			get:draw:frame:(0)
+			get:draw:playable:(false)
+			get:draw:item:information:background:(get:Color:value(0xEFEFEF))
+			get:draw:item:information:text:color:(get:Color:DARK)
+			get:draw:item:information:text:value:("COMPLETED")
+			get:draw:item:information:text:update()
+			get:draw:center(get:draw:item:information:text)
+			get:raycast:texture:(["#EFEFEF", "#EFEFEF"])
+			do:case(get:draw:item:information:opacity < 2):{
+				get:draw:item:information:opacity:(get:draw:item:information:opacity + 0.04)
+			}:default:{
+				get:draw:item:information:type:complete:(false)
+				do:case(get:draw:value:game < 10 - 1):{
+					get:draw:value:game:(get:draw:value:game + 1)
+					do:case(get:draw:value:game > get:Number(get:Cache:get("be//game"))):{
+						get:Cache:set("be//game", get:draw:value:game)
+					}
+				}
+				do:case(get:draw:ad:count % 2 == 0):{
+					get:draw:ad:publish()
+					do:case(get:draw:ad:active == false):{ get:this:create() }
+				}:default:{
+					get:this:create()
+				}
+			}
+		}
+		@ ADD
+		get:draw:each:(new:Array())
+		get:draw:each:push(get:raycast)
+		do:case(get:draw:playable && get:draw:touchable):{
+			get:draw:each:push(get:draw:button:menu)
+			get:draw:each:push(get:draw:button:left)
+			get:draw:each:push(get:draw:button:right)
+			get:draw:each:push(get:draw:button:forward)
+			get:draw:each:push(get:draw:button:backward)
+		}
+		do:case(get:draw:playable):{
+			get:draw:each:push(get:draw:item:minimap)
+			get:draw:each:push(get:draw:item:stopwatch)
+			get:draw:each:push(get:draw:item:game)
+		}
+		do:case(get:draw:playable == false):{
+			get:draw:each:push(get:draw:item:information)
+			get:draw:each:push(get:draw:item:information:text)
+		}
+    })
+    get:this:render:(():{
+		@ CLEAR
+		get:draw:clear()
+		@ RENDER
+		do:foreach(get:draw:each):((value):{
+			do:case(get:value && get:value:render):{
+				get:value:render()
+			}
+		})
+    })
+})

@@ -1,0 +1,85 @@
+Manifest-Version: 1.0
+
+Name: manifest.webapp
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: v80W12KYRVADNt0NGnkagA==
+SHA1-Digest: vbF1hgzBhOREt7YGyVbOwoQrZRo=
+SHA256-Digest: f3CUjZojzSTaWpYXW3baSd/P1/aDO8NKHDsXd0q+9oE=
+
+Name: Icon/A56x56.png
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: SeHoOa0OWZFNKrMEz7EoMw==
+SHA1-Digest: 5Pfj801WJz6dAaANwZbEIYb9sxQ=
+SHA256-Digest: gLOGnkkz9fmffEwcHX3eVTAPkcuL1mKqsdwM8TQPHNw=
+
+Name: Icon/A112x112.png
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: O7FR9V8gMspsYjhg6fAw3w==
+SHA1-Digest: fne6jN/fD2GMjtxZSPfd+nBsfnM=
+SHA256-Digest: dTL8KdEG3H4e6eU2mAuPEBq5ugVifiJ17HJi081dPKk=
+
+Name: Bridge.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: 45TQ1vDGivBbchC8KepgUQ==
+SHA1-Digest: mL0b4pCZlN3sHFdK4on5DAY0RYo=
+SHA256-Digest: D6b4xRzHDuWgVLdR+wZAzaT9Tx74xI15sOhE9zQonDg=
+
+Name: Source/1.2.0/Setup.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: ebvzpHv5dd4zbeDIf/c+9g==
+SHA1-Digest: DWIHfMaLueumJzl+p2EVtjRaA7s=
+SHA256-Digest: NFsn/lsN2tWJaJb5UotpdZ2h5PAVDpt8pNjyDfBCZIc=
+
+Name: Source/1.2.0/Bridge/Value.bridge
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: vTblXbPr503OtRfIxDmN+A==
+SHA1-Digest: 5j3A/PzfSlgxUfIFwPINR0ShWMs=
+SHA256-Digest: Yw7PCBjvpR5Nx+UFq3xqHI+/l0BqJUsOZcigOcRgNYk=
+
+Name: Source/1.2.0/Bridge/Menu.bridge
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: W4/pqcixjv6KL51plpuj7A==
+SHA1-Digest: 7Tv/rykyYWOMufYWJ50qDP+S7uI=
+SHA256-Digest: J07O0TqlnM5ZoHB+FBAhsndcrlWcaSCLJTzzkk/9cMk=
+
+Name: Source/1.2.0/Bridge/About.bridge
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: xEJ2mLhDyE9s+RP0SNZxoA==
+SHA1-Digest: /+2YIjOlMr9G4SlVLd1Csa4iAM0=
+SHA256-Digest: /Ten0fpVi0KBxxmIyQ2NrPQyVoCfla71V6qO1EdZ0og=
+
+Name: Source/1.2.0/Bridge/Main.bridge
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: ll3DHFji+gS1MMT12ccOKQ==
+SHA1-Digest: gOkj7uJubVWkW2MJfSpiMB4KIgs=
+SHA256-Digest: ckxncHoIStqz0sebuE0u0ovAU8x1Mie9vAstiABrvKA=
+
+Name: Source/1.2.0/Bridge/Load.bridge
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: J4ttpxMA8hTeBeMXshlXzw==
+SHA1-Digest: 78l2X7f7czcQC0u6NpxbB/sdrPg=
+SHA256-Digest: BsJaLd+Wv2sCOmL5VZCGx60IoSJTKkisEEdZv4mPooc=
+
+Name: Source/1.2.0/Library/kaiads.v4.min.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: VPS3jcAKgHiQmQufoYB72w==
+SHA1-Digest: OJQ+5iD6ZwpCGwXBMBZOPEpAlTo=
+SHA256-Digest: i0BxqRb0vxpaFZiKFOnsOM8ouVRnjcnmgDi3MECLOyI=
+
+Name: Engine.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: w1q4Y542OOiH2d3v8geNZg==
+SHA1-Digest: OnnDdBiMpYzX/NT3BHL4gAJEW9A=
+SHA256-Digest: ZGx2WyzZ8s3uyOewk1UYPwt2WQSQo7ZV1ZlZxv1P5vs=
+
+Name: index.html
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: 7nGicjpf1AauqhHfgvIOVw==
+SHA1-Digest: ZEPXRlS3kwIG6mhL04YER76Dcno=
+SHA256-Digest: jqEWqDqW/De5ZPZZoXuhokts3uoEehEerxIluTmel/U=
+
+Name: META-INF/ids.json
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: d9xOr55Ro+0cE9jbyExtWA==
+SHA1-Digest: WK2cXxc4AVrR/7pZFu3uxoWCC2E=
+SHA256-Digest: +AJMlHFqy9ZFZsUqQjRBLesg/SXjG/PvhHtfvX7czgk=

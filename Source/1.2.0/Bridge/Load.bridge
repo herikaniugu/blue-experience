@@ -1,0 +1,101 @@
+@ LOAD
+get:App:source:load:(():{
+    set:draw:(get:App:draw)
+	set:width:(480)
+	set:height:(640)
+    get:this:create:(():{
+		@ SETUP
+		get:draw:width:(get:width)
+		get:draw:height:(get:height)
+		get:draw:scale(get:width, get:height)
+		get:draw:input:key:(get:Device:key():down():up())
+		get:draw:input:pad:(get:Device:pad():connection())
+		get:draw:input:touch:(get:Device:touch(get:draw:canvas):down():move():up())
+		get:draw:value:game:(get:Number(get:Cache:get("be//game")) || 0)
+		get:draw:value:cursor:(0)
+        @ BACKGROUND
+		get:draw:item:background:(new:Object())
+		get:draw:item:background:color:(get:Color:value(0x6699FF))
+		get:draw:item:background:render:(():{
+			get:draw:fill(get:this:color):rectangle(0, 0, get:draw:width, get:draw:height)
+		})
+		@ ICON
+		get:draw:item:icon:(get:draw:polygon())
+		get:draw:item:icon:x:(0)
+		get:draw:item:icon:y:(0)
+		get:draw:item:icon:size:({ width: 10, height: 10 })
+		get:draw:item:icon:source(get:Engine:ICON)
+		get:draw:item:icon:update()
+		@ ENGINE
+		get:draw:item:engine:(get:draw:print())
+		get:draw:item:engine:size:(4)
+		get:draw:item:engine:color:(get:Color:WHITE)
+		get:draw:item:engine:value:(get:Engine:NAME)
+		get:draw:item:engine:update()
+		@ TITLE
+		get:draw:item:title:(get:draw:print())
+		get:draw:item:title:size:(4)
+		get:draw:item:title:color:(get:Color:WHITE)
+		get:draw:item:title:value:(get:App:NAME)
+		get:draw:item:title:update()
+		@ PROGRESS
+		get:draw:item:progress:(new:Object())
+		get:draw:item:progress:x:(0)
+		get:draw:item:progress:y:(0)
+		get:draw:item:progress:width:(120)
+		get:draw:item:progress:height:(12)
+		get:draw:item:progress:value:({ x: 0, y: 0, width: 0, height: 0 })
+		get:draw:item:progress:update:(():{
+			get:draw:center(get:this)
+			get:this:y:(get:draw:item:title:y + get:draw:item:title:height + get:draw:item:progress:width / 2)
+			get:this:value:x:(get:this:x + 2)
+			get:this:value:y:(get:this:y + 2)
+			get:this:value:width:(get:this:width * get:draw:progress - 4)
+			get:this:value:height:(get:this:height - 4)
+		})
+		get:draw:item:progress:render:(():{
+			get:draw:fill(get:Color:WHITE):rectangle(get:this:x, get:this:y, get:this:width, get:this:height)
+			get:draw:fill(get:Color:value(0x6699FF)):rectangle(get:this:value:x, get:this:value:y, get:this:value:width, get:this:value:height)
+		})
+		@ AD
+		get:draw:ad:close:(():{
+			get:draw:ad:preload()
+			get:draw:open(get:App:source:menu)
+		})
+    })
+    get:this:update:(():{
+		@ VIEW
+		get:draw:view()
+		@ ALIGNMENT
+		get:draw:center(get:draw:item:icon)
+		get:draw:center(get:draw:item:title)
+		get:draw:center(get:draw:item:engine)
+		get:draw:item:engine:y:(get:draw:item:icon:y + get:draw:item:icon:height + 20)
+		@ UPDATE
+		get:draw:item:progress:update()
+		@ OPEN
+		do:case(get:draw:progress == 1):{
+			do:case(get:draw:ad:active):{ get:draw:ad:publish() }:default:{ get:draw:open(get:App:source:menu) }
+		}
+		@ ADD
+		get:draw:each:(new:Array())
+		get:draw:each:push(get:draw:item:background)
+		do:case(get:draw:progress < 0.5):{
+			get:draw:each:push(get:draw:item:icon)
+			get:draw:each:push(get:draw:item:engine)
+		}:default:{
+			get:draw:each:push(get:draw:item:title)
+			get:draw:each:push(get:draw:item:progress)
+		}
+    })
+    get:this:render:(():{
+		@ CLEAR
+		get:draw:clear()
+		@ RENDER
+		do:foreach(get:draw:each):((value):{
+			do:case(get:value && get:value:render):{
+				get:value:render()
+			}
+		})
+    })
+})

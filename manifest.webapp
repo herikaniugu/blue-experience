@@ -1,0 +1,39 @@
+{
+  "name": "Blue Experience",
+  "version": "1.2.0",
+  "description": "3D Raycasting Block Maze Labyrinth Puzzle Game. Read the Map and Find the Exit Door. Press 2 or 8 to Move and Press 4 or 6 to Rotate.",
+  "launch_path": "/index.html",
+  "type": "web",
+  "origin": "app://BlueExperience",
+  "fullscreen": "true",
+  "orientation": [
+    "portrait"
+  ],
+  "categories": [
+    "games"
+  ],
+  "icons": {
+    "56": "/Icon/A56x56.png",
+    "112": "/Icon/A112x112.png"
+  },
+  "dependencies": {
+		"ads-sdk": "1.4.1"
+	},
+  "developer": {
+    "name": "Heri Kaniugu",
+    "url": "http://github.com/herikaniugu"
+  },
+  "permissions": {
+    "mobiledata": {},
+    "wifidata": {}
+  },
+  "locales": {
+    "en-US": {
+      "name": "Blue Experience",
+      "subtitle": "3D Maze Game - Find the Exit Door",
+      "description": "3D Raycasting Block Maze Labyrinth Puzzle Game. Read the Map and Find the Exit Door. Press 2 or 8 to Move and Press 4 or 6 to Rotate."
+    }
+  },
+  "default_locale": "en-US",
+  "theme_color": "#6699ff"
+}
